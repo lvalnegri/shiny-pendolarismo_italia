@@ -22,6 +22,7 @@ cols <- names(y)
 y <- y[, lapply(.SD, as.integer), .SDcols = cols]
 setnames(y, c('sesso', 'motivo', 'mezzo', 'orario', 'tempo', 'numero', 'CMNR', 'CMNL'))
 setcolorder(y, c('CMNR', 'CMNL'))
+setorderv(y, c('CMNR', 'CMNL'))
 y[, `:=`(
         sesso  = factor(sesso,  labels = c('Maschio', 'Femmina')),
         motivo = factor(motivo, labels = c('Studio', 'Lavoro')),
