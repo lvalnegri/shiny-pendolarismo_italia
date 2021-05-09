@@ -10,4 +10,4 @@ Il file è composto da 4.876.242 record suddivisi come `S` e `L`. Il codice tien
 
 Il file è salvato in formato *larghezza fissa*, ma essendo ogni campo separato da spazi, e non comparendo spazi in nessun campo, il file puo' essere letto tranquillamente come normale file di testo separato da spazi.
 
- Un'ulteriore trasformazione viene applicata per aggiornare il codice comune all'anno 2021, nel file il riferimento e' all'anno di censimento 2011 (vedi file [comuni_11-21.csv(https://github.com/lvalnegri/shiny-pendolarismo_italia/blob/main/comuni_11-21.csv)).
+ Un'ulteriore trasformazione viene applicata per aggiornare il codice comune all'anno 2021, nel file il riferimento e' all'anno di censimento 2011 (vedi file [comuni_11-21.csv](https://github.com/lvalnegri/shiny-pendolarismo_italia/blob/main/comuni_11-21.csv)).
