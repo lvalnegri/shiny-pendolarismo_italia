@@ -15,13 +15,15 @@ message('\nLeggo il file...')
 y <- fread(file.path(ext_path, 'istat', basename(fname)), sep = ' ')
 
 message('\nArrangio il dataset...')
-y <- y[V1 == 'L' & V7 != 3
-    ][, `:=`( CMNR = V3*1000 +V4, CMNL = V8*1000 +V9)
-      ][, c('V1', 'V2', 'V3', 'V4', 'V7', 'V8', 'V9', 'V10', 'V15') := NULL]
-cols <- names(y)
-y <- y[, lapply(.SD, as.integer), .SDcols = cols]
-setnames(y, c('sesso', 'motivo', 'mezzo', 'orario', 'tempo', 'numero', 'CMNR', 'CMNL'))
-setcolorder(y, c('CMNR', 'CMNL'))
+y <- y[V1 == 'L' & V7 != 3][, `:=`( CMN1 = V3*1000 +V4, CMN2 = V8*1000 +V9)][, paste0('V', c(1:4, 7:10, 15)) := NULL]
+
+yc <- fread('d:/OneDrive/VPS/master-i.ml/public/ext_data/geografia/CMN/comuni_11-21.csv')
+y <- yc[, .(CMN2 = CMN11, CMNL = CMN)][y, on = 'CMN2'][, CMN2 := NULL]
+y <- yc[, .(CMN1 = CMN11, CMNR = CMN)][y, on = 'CMN1'][, CMN1 := NULL]
+cols <- c('V11', 'V12', 'V13')
+y <- y[, .(numero = sum(as.integer(V14))), c('CMNR', 'CMNL', 'V5', 'V6', cols)]
+y[, (cols) := lapply(.SD, as.integer), .SDcols = cols]
+setnames(y, c('V5', 'V6', cols), c('sesso', 'motivo', 'mezzo', 'orario', 'tempo'))
 setorderv(y, c('CMNR', 'CMNL'))
 y[, `:=`(
         sesso  = factor(sesso,  labels = c('Maschio', 'Femmina')),
@@ -38,5 +40,5 @@ y[, `:=`(
 message('\nSalvo in formato fst...')
 write_fst(y, file.path(app_path, 'pendolari_italia', 'dataset'))
 
-rm(y)
+rm(y, yc)
 gc()
