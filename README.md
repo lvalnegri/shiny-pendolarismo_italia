@@ -1,7 +1,8 @@
 ## Shiny app riguardante il pendolarismo in Italia
 
-Il file contiene i dati sul numero di persone che si spostano tra comuni, o all'interno dello stesso comune, classificate, oltre che per il motivo dello spostamento: lavoro o studio, anche per: 
- - sesso
+Il file contiene i dati sul numero di persone che si spostano tra comuni, o all'interno dello stesso comune, classificate, oltre che per il 
+ - motivo dello spostamento: lavoro o studio 
+ - sesso: maschio o femmina
  - mezzo di trasporto utilizzato
  - fascia oraria mattutina di partenza dal luogo di residenza
  - durata del tragitto
