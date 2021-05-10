@@ -1,7 +1,6 @@
-library(data.table)
-library(fst)
+dmpkg.funs::load_pkgs(c('data.table', 'fst'))
 
-message('\nScarico il file zippato dati sezioni...')
+message('\nDownload...')
 tmp <- tempfile()
 download.file('http://www.istat.it/storage/cartografia/matrici_pendolarismo/matrici_pendolarismo_2011.zip', destfile = tmp)
 
@@ -17,7 +16,7 @@ y <- fread(file.path(ext_path, 'istat', basename(fname)), sep = ' ')
 message('\nArrangio il dataset...')
 y <- y[V1 == 'L' & V7 != 3][, `:=`( CMN1 = V3*1000 +V4, CMN2 = V8*1000 +V9)][, paste0('V', c(1:4, 7:10, 15)) := NULL]
 
-yc <- fread('d:/OneDrive/VPS/master-i.ml/public/ext_data/geografia/CMN/comuni_11-21.csv')
+yc <- fread('./dati/comuni_11-21.csv')
 y <- yc[, .(CMN2 = CMN11, CMNL = CMN)][y, on = 'CMN2'][, CMN2 := NULL]
 y <- yc[, .(CMN1 = CMN11, CMNR = CMN)][y, on = 'CMN1'][, CMN1 := NULL]
 cols <- c('V11', 'V12', 'V13')
@@ -38,7 +37,12 @@ y[, `:=`(
 )]
 
 message('\nSalvo in formato fst...')
-write_fst(y, file.path(app_path, 'pendolari_italia', 'dataset'))
+write_fst(y, file.path(app_path, 'it_pendolarismo', 'dataset'))
+
+message('\nSalvo in formato zip...')
+fwrite(y, './dati/dataset.csv')
+system('7z a dati/dataset.zip dati/dataset.csv')
+file.remove('./dati/dataset.csv')
 
 rm(y, yc)
 gc()
